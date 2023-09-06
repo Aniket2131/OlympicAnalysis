@@ -83,3 +83,12 @@ def country_sport_heatmap(df, country):
     new_df = temp[temp['region'] == country]
     total = new_df.pivot_table(index='Sport',columns='Year',values='Medal',aggfunc='count').fillna(0)
     return total
+
+
+def get_top_players(df, country):
+    temp_df = df.dropna(subset=['Medal'])
+    temp_df = temp_df[temp_df['region'] == country]
+
+    res = temp_df['Name'].value_counts().head(10).reset_index().merge(df, on='Name', how='left')[
+        ['Name', 'count', 'Sport']].drop_duplicates().rename(columns={'count': 'Medal'})
+    return res

@@ -1,9 +1,9 @@
 import pandas as pd
 
 
-def preprocessor(df,region_df):
-    df_summer = df[df['Season'] == 'Summer']
-    df_summer = df_summer.merge(region_df, on='NOC', how='left')
-    df_summer.drop_duplicates(inplace=True)
-    df_summer = pd.concat([df_summer, pd.get_dummies(df_summer['Medal'], dtype='int32')], axis=1)
-    return df_summer
+def preprocessor(df, region_df, season):
+    new_df = df[df['Season'] == season]
+    new_df = new_df.merge(region_df, on='NOC', how='left')
+    new_df.drop_duplicates(inplace=True)
+    new_df = pd.concat([new_df, pd.get_dummies(new_df['Medal'], dtype='int32')], axis=1)
+    return new_df
